@@ -75,10 +75,10 @@ Git은 소스코드 형상(버전)관리 도구이다.
 1.  원격 저장소 등록하기
 
    ```bash
-   $ git remote add origin https://github.com/edutak/TIL.git
+   $ git remote add origin https://github.com/hyooo1017/TIL.git
    ```
 
-   <https://github.com/edutak/TIL.git> 라는 주소를 `origin` 이라는 원격 저장소 이름으로 추가(`add`) 한다.
+   <https://github.com/hyooo1017/TIL.git> 라는 주소를 `origin` 이라는 원격 저장소 이름으로 추가(`add`) 한다.
 
    **원격 저장소 등록은 최초에 한번만 하면 된다.**
 
