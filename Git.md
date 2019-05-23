@@ -99,7 +99,7 @@ Git은 소스코드 형상(버전)관리 도구이다.
 3.  저장소로부터 복제하기
 
    ```bash
-   $ git clone https://github.com/edutak/TIL.git
+   $ git clone https://github.com/hyooo1017/TIL.git
    ```
 
    주소는 github에서 우측에 있는 초록색 버튼(clone)을 눌러서 얻을 수 있다.
