@@ -1,2 +1,2 @@
 패키지 설치
-pip install numpy scipy matplotlib ipython scikit-learn pandas pillow
+pip install numpy scipy(반드시 버전 1.1.0) matplotlib ipython scikit-learn pandas pillow
