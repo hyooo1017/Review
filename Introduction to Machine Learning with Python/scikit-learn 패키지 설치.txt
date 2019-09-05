@@ -1,0 +1,2 @@
+패키지 설치
+pip install numpy scipy matplotlib ipython scikit-learn pandas pillow

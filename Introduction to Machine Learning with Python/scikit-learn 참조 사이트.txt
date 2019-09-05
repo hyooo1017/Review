@@ -1,0 +1,15 @@
+알고리즘 설명한 문서들
+https://scikit-learn.org/stable/documentation
+
+scikit-learn의 사용자 가이드
+https://scikit-learn.org/stable/user_guide.html
+
+API 문서
+https://scikit-learn.org/stable/modules/classes.html
+
+-------------------------------------------------------------------
+책에 포함된 예제 코드(원서)
+https://github.com/amueller/introduction_to_ml_with_python
+
+책에 포함된 예제 코드(번역)
+https://github.com/rickiepark/introduction_to_ml_with_python
