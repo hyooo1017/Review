@@ -1,4 +1,6 @@
 패키지 설치
 conda install numpy scipy(반드시 버전 1.1.0) matplotlib ipython scikit-learn pandas pillow graphviz python-graphviz
 conda install nltk spacy
+
+영어 언어 모델 다운로드하기
 python -m spacy download en
