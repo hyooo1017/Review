@@ -19,8 +19,7 @@ ENV/
 env.bak/
 venv.bak/
 
-# 제외 폴더
+# 제외 폴더, 파일
 */참고자료/*
-Introduction to Machine Learning with Python/tmp
-Introduction to Machine Learning with Python/tmp.png
-Introduction to Machine Learning with Python/.dot
+Introduction to Machine Learning with Python/tree.dot
+Introduction to Machine Learning with Python/mytree.dot
