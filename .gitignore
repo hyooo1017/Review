@@ -21,5 +21,7 @@ venv.bak/
 
 # 제외 폴더, 파일
 */참고자료/*
-Introduction to Machine Learning with Python/tree.dot
-Introduction to Machine Learning with Python/mytree.dot
+*/tmp
+*/tmp.png
+*/tree.dot
+*/mytree.dot
