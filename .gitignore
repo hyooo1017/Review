@@ -9,6 +9,7 @@
 #   git rm -r .ipynb_checkpoints/
 
 __pycache__/
+*/cache/*
 
 # Environments
 .env
