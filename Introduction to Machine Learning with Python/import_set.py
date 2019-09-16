@@ -29,3 +29,7 @@ from sklearn.ensemble import ExtraTreesClassifier
 from sklearn.ensemble import AdaBoostClassifier
 from sklearn.svm import SVC
 from sklearn.neural_network import MLPClassifier
+
+# sklearn에 있는 scaler
+from sklearn.preprocessing import MinMaxScaler
+from sklearn.preprocessing import QuantileTransformer, StandardScaler, PowerTransformer
