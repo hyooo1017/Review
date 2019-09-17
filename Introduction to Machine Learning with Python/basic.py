@@ -1,6 +1,8 @@
 from IPython.display import set_matplotlib_formats, display
 import numpy as np
 import pandas as pd
+import graphviz
+import os
 import mglearn
 import matplotlib
 import matplotlib.pyplot as plt
@@ -22,7 +24,6 @@ plt.rcParams['legend.numpoints'] = 1
 plt.rc('axes', prop_cycle=(
     cycler('color', mglearn.plot_helpers.cm_cycle.colors) +
     cycler('linestyle', ['-', '-', "--", (0, (3, 3)), (0, (1.5, 1.5))])))
-
 
 np.set_printoptions(precision=3, suppress=True)
 
