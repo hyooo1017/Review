@@ -1,6 +1,8 @@
 from IPython.display import set_matplotlib_formats, display
 import numpy as np
 import pandas as pd
+import graphviz
+import os
 import mglearn
 import matplotlib
 import matplotlib.pyplot as plt
