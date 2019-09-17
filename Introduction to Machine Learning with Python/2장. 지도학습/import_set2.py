@@ -7,11 +7,9 @@ from sklearn.datasets import make_circles
 from sklearn.datasets import load_iris
 
 from sklearn.model_selection import train_test_split
-import graphviz
-import os
 from mpl_toolkits.mplot3d import Axes3D, axes3d
 
-# sklearn에 있는 모델들
+# sklearn 모델
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.neighbors import KNeighborsRegressor
 from sklearn.linear_model import LinearRegression
