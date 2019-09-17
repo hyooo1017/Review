@@ -23,7 +23,6 @@ plt.rc('axes', prop_cycle=(
     cycler('color', mglearn.plot_helpers.cm_cycle.colors) +
     cycler('linestyle', ['-', '-', "--", (0, (3, 3)), (0, (1.5, 1.5))])))
 
-
 np.set_printoptions(precision=3, suppress=True)
 
 pd.set_option("display.max_columns", 8)
