@@ -10,8 +10,6 @@ from sklearn.datasets import load_digits
 
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
-import graphviz
-import os
 from mpl_toolkits.mplot3d import Axes3D, axes3d
 
 # sklearn 모델
@@ -30,16 +28,23 @@ from sklearn.ensemble import GradientBoostingClassifier
 from sklearn.ensemble import BaggingClassifier
 from sklearn.ensemble import ExtraTreesClassifier
 from sklearn.ensemble import AdaBoostClassifier
+from sklearn.ensemble import RandomForestRegressor
 from sklearn.svm import SVC
+from sklearn.svm import SVR
 from sklearn.neural_network import MLPClassifier
 
 # 전처리
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.preprocessing import QuantileTransformer, StandardScaler, PowerTransformer
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.preprocessing import KBinsDiscretizer
+from sklearn.preprocessing import PolynomialFeatures
 
 # 성분 분석
 from sklearn.decomposition import PCA
 from sklearn.decomposition import NMF
+from sklearn.compose import ColumnTransformer
+from sklearn.compose import make_column_transformer
 
 # 매니폴드
 from sklearn.manifold import TSNE
@@ -51,3 +56,8 @@ from sklearn.cluster import DBSCAN
 from scipy.cluster.hierarchy import dendrogram, ward
 from sklearn.metrics.cluster import adjusted_rand_score
 from sklearn.metrics.cluster import silhouette_score
+
+# 특성 선택
+from sklearn.feature_selection import SelectPercentile, f_classif
+from sklearn.feature_selection import SelectFromModel
+from sklearn.feature_selection import RFE
