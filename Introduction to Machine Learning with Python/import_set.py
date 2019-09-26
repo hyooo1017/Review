@@ -8,8 +8,27 @@ from sklearn.datasets import load_iris
 from sklearn.datasets import fetch_lfw_people
 from sklearn.datasets import load_digits
 
+# 모델 평가
 from sklearn.model_selection import train_test_split
+from sklearn.model_selection import cross_val_score
+from sklearn.model_selection import cross_validate
+from sklearn.model_selection import KFold
+from sklearn.model_selection import LeaveOneOut
+from sklearn.model_selection import ShuffleSplit
+from sklearn.model_selection import GroupKFold
+from sklearn.model_selection import StratifiedKFold
+from sklearn.model_selection import RepeatedStratifiedKFold
+from sklearn.model_selection import GridSearchCV
+from sklearn.model_selection import ParameterGrid
 from sklearn.metrics import accuracy_score
+from sklearn.metrics import confusion_matrix
+from sklearn.metrics import f1_score
+from sklearn.metrics import classification_report
+from sklearn.metrics import precision_recall_curve
+from sklearn.metrics import average_precision_score
+from sklearn.metrics import roc_curve
+from sklearn.metrics import roc_auc_score
+from sklearn.metrics.scorer import SCORERS
 from mpl_toolkits.mplot3d import Axes3D, axes3d
 
 # sklearn 모델
@@ -32,6 +51,7 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.svm import SVC
 from sklearn.svm import SVR
 from sklearn.neural_network import MLPClassifier
+from sklearn.dummy import DummyClassifier
 
 # 전처리
 from sklearn.preprocessing import MinMaxScaler
