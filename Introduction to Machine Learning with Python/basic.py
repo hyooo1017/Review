@@ -6,6 +6,7 @@ import os
 import mglearn
 import matplotlib
 import matplotlib.pyplot as plt
+%matplotlib inline
 from matplotlib import rc, font_manager
 from cycler import cycler
 
