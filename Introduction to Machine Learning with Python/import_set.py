@@ -81,3 +81,8 @@ from sklearn.metrics.cluster import silhouette_score
 from sklearn.feature_selection import SelectPercentile, f_classif
 from sklearn.feature_selection import SelectFromModel
 from sklearn.feature_selection import RFE
+from sklearn.feature_selection import f_regression
+
+# 파이프라인
+from sklearn.pipeline import Pipeline
+from sklearn.pipeline import make_pipeline
