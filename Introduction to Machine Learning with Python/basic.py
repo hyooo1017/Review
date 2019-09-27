@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 from matplotlib import rc, font_manager
 from cycler import cycler
 
-font_name = font_manager.FontProperties(fname = "C:/Windows/Fonts/H2GTRM.TTF").get_name()
+font_name = font_manager.FontProperties(fname = 'C:/Windows/Fonts/H2GTRM.TTF').get_name()
 rc('font', family = font_name)
 matplotlib.rcParams['axes.unicode_minus'] = False
 
@@ -28,7 +28,7 @@ plt.rc('axes', prop_cycle=(
 
 np.set_printoptions(precision=3, suppress=True)
 
-pd.set_option("display.max_columns", 8)
+pd.set_option('display.max_columns', 8)
 pd.set_option('precision', 2)
 
 __all__ = ['np', 'mglearn', 'display', 'plt', 'pd']
