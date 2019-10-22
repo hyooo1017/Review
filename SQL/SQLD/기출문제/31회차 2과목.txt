@@ -1,0 +1,593 @@
+1. 트랜잭션의 특징에 대한 설명에 대해서 올바른 것은?
+   [보기] ALL OR NOTHING
+   -> 원자성 
+
+
+2. SELECT ' ''A '''' ' FROM DUAL 의 결과는?
+    -> 'A'' 
+
+
+3. 아래의 SQL 을 수행한 결과는 ?  (NOT IN 에 NULL 있을때 어떻게 되는가?)
+    -> NOT IN ( ...) 안에 NULL 이 있으면 모두 NULL 이 됨 
+    -> COUNT(*) 이므로 0 
+
+    [테이블] 
+       T1             T2
+     --------     --------
+       C1             C2
+     --------     --------
+        1              2
+        2             NULL
+        3
+
+   [SQL]
+   Select count(*)
+   From t1 a
+   Where a.col1 not in (select col2 from t2)
+
+
+4. 아래의 SQL 을 수행했을 때 결과는? (GROUP BY 와 공집합 문제)
+    -> 전체 집합인 경우는 0 을 반환하나 (NULL 이므로) 기준컬럼이 존재할 경우는 0 ROWS 반환
+    -> 0 ROWS 가 반환된다라는게 정답
+
+   [SQL]   
+    SELECT  C1, COUNT(*)
+    FROM T1
+    WHERE C1 = 9 -----> 데이터 없음
+    GROUP BY C1;
+
+
+5. 아래의 SQL 결과를 나타내는 SQL 을 고르시오. (ROLLUP 문제)
+    -> 2) group by rollup(dname,sal), 년도
+   [데이터] 생략
+   [결과] 생략
+     * 결과에서 DNAME 의 소계는 있으나, SAL 의 소계는 없음.
+   보기>
+    1) group by rollup(dname,sal,년도)
+    2) group by rollup(dname,sal), 년도
+    3) groupby cube(dname,sal,년도)
+    4) group by cube(dname,sal), 년도
+
+
+6. 아래의 SQL에 대한 결과로 올바른 것은? 
+    (데이터는 임의로 설정. 계층번호의 중간값이 11 부터 시작되는 형태였음)
+    -> 아래의 데이터 결과는 3
+    -> 실제 결과
+
+LEVEL C1_TREE C_C1 P_C1
+-------------------------------------
+1 11 11 6
+2 **6 6 2
+3  ** 2 2  
+
+   [데이터]
+   계층번호   상위계층번호
+   -----------------
+   1      null
+   2      null
+   4         1
+   5         1
+   6         2
+   7         2
+   8         4
+   9         5
+   10        6
+   11        7
+   12        7
+   13        8
+   14        9
+   15        9
+   
+   [SQL] (SQL 은 조건절 외에는 가상으로..)
+   SELECT COUNT(*)
+   FROM SQLD_31_6
+   START WITH 계층번호 = 11
+   CONNECT BY 계층번호 = PRIOR 상위계층번호;
+
+7. SELECT ... WHERE ... BETWEEN 100 AND 200 의 결과는?
+   -> 3개   
+   -> SQL 에서 BETWEEN A AND B 는 A 이상 B 이하로 A,B 값이 포함됨
+
+
+8. 아래의 프로시저에서 결과는...?
+   -> 1,2,2    
+   -> 레이블이 지정된 경우 바깥의 변수를 쓰기위해서는 해당 레이블을 붙여줘야 함
+       내부에서는 내부에 지정된 변수가 사용됨
+  [PL/SQL]
+    <LABEL 1>
+    DECLARE 
+        v_lv = 1
+     ....
+          < LABEL 2 >
+               DECLARE
+                   v_lv = 2 
+               DBMS_OUTPUT .... L1.v_lv ... L2.v_lv.... v_lv
+
+  * 참고 사이트 : https://www.ibm.com/support/knowledgecenter/ko/SSEPGG_11.1.0/com.ibm.db2.luw.apdv.sqlpl.doc/doc/c0011921.html
+
+
+9. 오라클에서 물리적인 구성 요소는 논리/물리 요소가 있다. 여기서 다른 하나는?
+   -> 미정. 
+   -> 논리저장 단위는 BLOCK,EXTENT,SEGMENT, TABLESPACE 
+       물리저장 단위는 DATAFILE 
+   * 이 부분은 범위 밖 같은데...왜 나왔는지... 일단 DATAFILE 과 나머지 2개는 다른데..테이블이 애매하네요.
+   1) TABLE
+   2) SEGMENT
+   3) DATAFILE
+   4) TABLESPACE
+
+
+10. SUBQUERY 의 특징으로 부적절한 것은 ?
+    (보기 4번이었던걸로 기억이 나네요)
+    -> 4) IN 절 뒤의 서브쿼리는 단일행 서브쿼리이다. 
+    
+
+11. 인덱스 스캔에 대한 설명 중 부적절한 것은?
+    -> 4) 둘다 안할 수 없음
+    1) RANGE SCAN 은 수직, 수평 스캔
+    2) UNIQUE SCAN 은 수직 스캔만
+    3) INDEX FULL SCAN 은 수평 스캔만
+    4) INDEX FAST FULL SCAN 은 수직, 수평 스캔 둘다 안함
+
+
+12. SELECT C1 + C1 * (NVL2(C2, 0.1,0.2 ) )  FROM DUAL ...?
+    -> C1 = 10 , C2 = NULL 이 나와 10 + 10*0.2 = 12 
+    -> NVL2 (A, B, C) ---> A 가 NOT NULL 이면 B, NULL 이면 C
+
+
+13. 아래의 SELECT 결과에 대해서 올바른 것은? (ORDER BY 에 대한 문제)
+    -> 아래 내용 참고
+     * 두가지를 묻는 문제. 첫번째는 문자형에 들어간 숫자의 비교, 두번째는 oracle 에서
+        null 은 default 로 어떻게 정렬되는지에 대한 문제
+     * oracle 에서 null 은 Default 로 nulls last 처리됨 
+
+   [데이터]
+SQLD_31_13
+---------------------------
+C1 C2  C3
+---------------------------
+1 100 1100
+2 110 110
+3 150 110
+4  110
+5  200
+6 200 200
+
+   [SQL]
+   SELECT * FROM SQLD_31_13 ORDER BY C3,C2,C1;
+
+   ** 결과 
+       -> C3 이 정렬됨. 작은거에서 큰걸로. 문자형 비교이므로 1100 이 200 보다 작음
+       -> NULL 정렬은 DEFAULT 로 NULLS LAST 로 맨 뒤로 감
+
+C1 C2      C3
+------------------------------
+2 110     110
+3 150     110
+4 [NULL]  110
+1 100     1100
+6 200     200
+5 [NULL]  200
+
+
+14. 아래의 데이터가 있을 때 아래 처럼 회원 중 가장 많은 소비를 한 회원을 구하는 SQL 올바른 것은?
+      ->  1)
+      * 데이터 임의로 복원함
+      -> GROUP BY 와 ORDER BY 가 같은 INLINE VIEW 에 있고 밖에서 ROWNUM <=1 처리된 SQL 이 답
+          (GROUP BY, ORDER BY , ROWNUM 의 위치)
+
+   [데이터]
+회원번호   주문일자       주문금액
+----------------------------------------
+100   20181101    10000
+100   20181102    20000
+100   20181103    30000
+101   20181101    10000
+101   20181102    1000
+102   20181110    100
+103   20181201    5000
+104   20181201    5000
+104   20181203    500
+
+  [결과] 
+회원번호   총 주문금액
+------------------------
+  100   60000
+
+   1) 
+SELECT * 
+FROM (
+      SELECT 회원번호,SUM(주문금액) AS T_SUM
+      FROM SQLD_31_14
+      GROUP BY 회원번호
+      ORDER BY T_SUM DESC
+     )
+WHERE ROWNUM <= 1;
+
+   2,3,4) GROUP BY 와 ORDER BY 의 레벨이 같거나 ROWNUM 이 잘못 걸렸거나 함
+
+
+15. SQL 의 수행 순서는? 
+    -> 아래 내용으로 정리한 순서임 : 다 - 가 - 라 - 나 - 마 
+    -> ORDERED 가 있으므로 A, B 순서로 테이블을 엑세스 하므로 A 의 인덱스가 있는 COL1 을 먼저 읽고
+        인덱스에서 테이블(A) 로 가서 COL2 의 조건을 필터하고 조인으로 넘어가서 A의 값을 
+        B 테이블의 인덱스로 던져주는 형태가 됨
+
+    SELECT /*+ ORDERED USE_NL(B) */ * 
+    FROM A, B                    --> 가
+    WHERE A.COL0 = B.COL0   --> 나
+    AND A.COL1 = A             --> 다
+    AND A.COL2 = B            --> 라
+    AND B.COL3 = 3            --> 마
+  
+    A의 인덱스 : IX (A) 
+    B의 인덱스 : COL3
+
+
+16.  아래의 결과를 나오게 하는 SQL 로 올바른 것은?
+      -> SELECT SUBSTR(SQL검정자격시험,6,2) FROM DUAL; 이 답
+
+     [결과] 자격
+     1) SELECT SUBSTR(SQL검정자격시험,6,2) FROM DUAL;
+     2) SELECT SUBSTR(SQL검정자격시험,5,2) FROM DUAL;
+     3) SELECT SUBSTR(SQL검정자격시험,6,8) FROM DUAL;
+     4) ..
+
+
+17. 아래와 같은 데이터와 SQL 이 있을 때 SQL의 수행 결과로 올바른 것은?
+     (OR 과 AND 가 섞여 있을때의 데이터 문제)
+     -> OR C2='A' AND C3 IS NOT NULL 이  OR ( C2='A' AND C3 IS NOT NULL) 과 동일함
+     -> 아래 데이터의 결과는 
+          3,4,5 3개 행임 
+
+     [데이터]
+     T1
+     ---------------------
+     C1       C2      C3  
+     ---------------------
+      1        A      NULL
+      2        B        X
+      3        A        Y
+      4        D      NULL
+      5        E        Z 
+
+     [SQL]
+     SELECT * FROM WHERE C1 > 2 OR C2 = 'A' AND C3 IS NOT NULL;
+     ==> SELECT * FROM WHERE C1 >2 OR (C2 ='A' NAD C3 IS NOT NULL) 와 같은 의미인데 
+          좀 의아한 구문임. WHERE C1 >2 AND C3 IS NOT NULL OR C2='A' 와는 의미가 다른데 
+          괄호를 생략하고 안하고를 문제로 냈다는게...
+    
+
+18. 아래의 조인 결과를 올바른 것은?
+     * LEFT OUTER JOIN 후 중간 테이블과 마지막 테이블을 RIGHT OUTER JOIN 하는 형태
+     * 조인은 두개 테이블의 결과를 다음 테이블과 조인하는 형태임 
+     * 데이터가 생각이 안나서 임의로 했습니다. 
+     * 기억으로는 SELECT SUM(T1.C1) 으로 기억이 나긴 하네요.
+     -> 아래 내용 참고. T1.C1 을 SUM 하는 거였다면 마지막이 NULL 처리되어서 3
+         T3.C1 이었다면 1,2,3 이 아마 값이라서 6이 답
+   
+     [TABLE]
+          T1            T2            T3 
+      ---------     ---------    ----------
+      C1   C2       C1   C3       C3  C4
+      ---------     ---------    ----------
+       1    1         1    1          2   1
+       2    2         3    2          3   1
+       3    3         5    3          4   1
+     
+     [SQL]
+     SELECT SUM(A.C1)
+     FROM T1 A
+              LEFT OUTER JOIN T2 B
+                                ON (B.C1 = A.C1)
+              RIGHT OUTER JOIN T3 C
+                                  ON (C.C3 = B.C3)
+     WHERE 1=1;                                
+   
+*** 실제 결과   
+C1 C2 C1 C3 C3 C4
+--------------------------------------------------------
+3 3 3 2 2 1
+ -   -   -   -  4 1
+ -   -   -   -  3 1
+
+
+19. C1 별 C2 기준으로 C3 의 현재 행까지의 누적 합을 구하는 SQL 은? 
+     (ROWS와 RANGE의 차이점문제 / ROWS:행기준 ,RANGE:값의범위표시 OR 범위지정)
+     * 임의로 데이터를 만들어 확인함 
+     * ROWS 와 RANGE 의 차이를 이해하고, ORDER BY 의 정렬값이 같을 때 값이 틀려짐을 이해해야함
+     -> ROWS 는 행기준이고 RANGE 는 범위의 기준으로 같은 값은 같은 범위로 취급함
+
+[데이터]
+C1     C2         C3
+----------------------
+100 20181101 10000
+100 20181102 20000
+100 20181103 30000 
+101 20181101 10000
+101 20181102 1000
+102 20181110 100
+102 20181201 5000
+102 20181201 5000
+102 20181203 500
+
+[SQL]
+SELECT A.*,
+        SUM(C3) OVER(PARTITION BY C1 ORDER BY C2 ROWS UNBOUNDED PRECEDING) S_1
+       ,SUM(C3) OVER(PARTITION BY C1 ORDER BY C2 RANGE UNBOUNDED PRECEDING) S_2
+       ,SUM(C3) OVER(PARTITION BY C1 ORDER BY C2 ROWS BETWEEN UNBOUNDED PRECEDING AND 1 PRECEDING) S_3
+--       ,SUM(C3) OVER(PARTITION BY C1 ORDER BY C2 RANGE BETWEEN UNBOUNDED PRECEDING AND 1 PRECEDING) S_4 --> 에러
+FROM SQLD_31_19 A;
+--> 4번째는 C2 가 VARCHAR 형이라 그런지 에러가 남
+
+[결과]
+C1    C2               C3  S_1   S_2  S_3
+---------------------------------------------------------------------
+100 20181101 10,000 10,000 10,000 [NULL]
+100 20181102 20,000 30,000 30,000 10,000
+100 20181103 30,000 60,000 60,000 30,000
+101 20181101 10,000 10,000 10,000 [NULL]
+101 20181102 1,000 11,000 11,000 10,000
+102 20181110 100       100       100    [NULL]
+102 20181201 5,000 5,100 10,100 100
+102 20181201 5,000 10,100 10,100 5,100
+102 20181203 500        10,600 10,600 10,100
+
+
+20. 아래의 집계 결과가 나오게 하는 SQL 구문에서 빈칸에 알맞은 것은?
+     -> cube
+
+[데이터 결과]
+C1, C2 각각이 소계가 있었음. C1 의 값이 있고 C2 가 널인 상태의 집계와 C2의 값이 있고 C1이
+널인 상태의 집계가 있고, 전체 집계가 있는 형태는 Cube 임
+--> 유사한 형태 : 교재 112 page
+
+
+21. 아래의 Update 구문에 대한 설명중 올바른 것은?
+     -> 4) 부서번호가 10 이 아닌 사원의 연봉은 NULL 로 업데이트 된다.
+
+[SQL]
+UPDATE SQLD_31_21 A
+SET SAL = (SELECT B.SAL * 1.1 
+               FROM SQLD_31_21 B
+               WHERE A.EMP_ID = B.EMP_ID
+               AND B.DEPT_ID = 10);
+
+1) 모든 사원의 연봉을 10% 올리는 업데이트 구문이다
+2) 부서번호가 10인 부서의 사원만 연봉을 10% 올리는 업데이트 구문이다.
+3) 부서번호가 10인 부서의 사원은 연봉을 10% 올리고, 나머지 사원은 그대로 두는 구문이다.
+4) 부서번호가 10이 아닌 사원의 연봉은 NULL 로 업데이트 된다.
+
+
+22. 아래와 같은 데이터가 있을 때 SQL 의 결과로 올바른 것은?
+    (CASE WHEN 에 대한 처리를 어떻게 하는지에 대한 문제)
+    * ORDER BY 로 정렬되어 B A A S 가 나타는 형태였음
+    * 데이터는 임의로 작성함.
+
+[데이터]
+SQLD_31_22
+--------------
+C1        C2
+-------------
+1 90
+2 100
+3 200
+4 1000
+
+[SQL]
+SELECT C1, 
+       C2,
+       CASE 
+         WHEN C2 <= 100 THEN 'B'
+         WHEN C2 <= 300 THEN 'A'
+         ELSE 'S'
+       END GRADE
+FROM SQLD_31_22
+ORDER BY C2;
+
+
+23. 아래의 테이블을 CREATE TABLE COPY_T1 AS SELECT * FROM T1 으로 만들었을 때 COPY_T1 대한 설명으로 올바른것은?
+     -> 1)
+     * PK 조건은 복사되지 않는다라는 보기였던걸로 기억나네요. NOT NULL 제외하고 다 복사가 안됩니다.
+
+[TABLE]
+CREATE TABLE SQLD_31_23
+(
+  PK1 NUMBER PRIMARY KEY,
+  C1 NUMBER NOT NULL,
+  C2 NUMBER DEFAULT 1
+);
+
+[SQL]
+CREATE TABLE COPY_SQLD_31_23 AS SELECT * FROM SQLD_31_23;
+
+1) PK 조건은 복사되지 않는다.
+2) NOT NULL 조건은 복사되지 않는다.
+3) 제약조건은 복사된다.
+4) DEFAULT 값은 복사된다.
+
+
+24. 아래의 TABLE 에 대해서 보기의 SQL 중 에러가 나지 않는 SQL 은?
+    -> 1) 
+     * PK 컬럼은 같은 TYPE 으로 증가 시키는 SQL 로 에러가 나지 않음
+     * 나머지는 다른 컬럼 형태 였던걸로 기억남
+
+[TABLE]
+CREATE TABLE SQLD_31_24
+(
+  PK1 NUMBER(3) PRIMARY KEY,
+  C1  VARCHAR2(10),
+  C2  DATE,
+  C3  NUMBER(3)
+);
+
+[데이터]
+PK1        C1          C2                 C3
+------------------------------------
+1       ABC 2018-12-02 08:30:28  100
+2       XXX 2018-12-04 08:30:47  200
+3       YYY 2018-12-05 08:30:49  300
+4        2018-12-06 08:32:45  400
+
+1) ALTER TABLE SQLD_31_24 MODIFY PK1 NUMBER(5);
+2) ALTER TABLE SQLD_31_24 MODIFY C1 VARCHAR2(10) NOT NULL; --> 데이터가 없을 경우 안됨
+3) ALTER TABLE SQLD_31_24 MODIFY C2 ..... ----> ????
+4) ALTER TABLE SQLD_31_24 MODIFY C3 VARCHAR2(5);    --> 데이터가 있을 경우 안됨
+
+
+25. 아래의 SQL 구문 중 결과가 다른 것은? 
+     (ORDER BY 의 정렬 순서에 대한 문제)
+     -> 4) 
+     * 보기는 정확하게 기억이 나지 않으나 ASC, DESC 의 차이로 기억암
+
+1) SELECT * FROM T1 ORDER BY C1, C2;
+2) SELECT * FROM T1 ORDER BY 1,   C2;
+3) SELECT * FROM T1 ORDER BY 1,   2;
+4) SELECT * FROM T1 ORDER BY C1, 2 DESC;
+
+
+26. 아래의 SQL 구문 중 결과가 다른 것은? 
+    (JOIN 방식에 대한 이해 NATURAL JOIN, USING, ON 에 대한 이해)
+    -> 4) 
+
+1) 
+SELECT NO,A.C1, B.C2
+FROM SQLD_31_26_01 A 
+NATURAL JOIN SQLD_31_26_02 B;
+
+2)
+SELECT NO,A.C1, B.C2 
+FROM SQLD_31_26_01 A 
+JOIN SQLD_31_26_02 B
+USING (NO);
+
+3)
+SELECT A.NO,A.C1, B.C2 
+FROM SQLD_31_26_01 A 
+JOIN SQLD_31_26_02 B
+ON (A.NO= B.NO);
+
+4)
+SELECT A.NO,A.C1, B.C2 
+FROM SQLD_31_26_01 A 
+CROSS JOIN SQLD_31_26_02 B;
+
+
+27. 아래와 같이 전체 회원수를 조회하는 SQL 에서 중복된 회원을 제외한 회원수를 조회하고 싶을 때로 올바른 SQL 은?
+    -> 1) COUNT(DISTINCT CUST_ID) 로 .GROUP BY 로 기준컬럼을 하게 되면 기준컬럼 기준으로 COUNT 가 됨
+     * 아래 보기 지문과 보기순서는 임의로 생성한 내용입니다. 
+
+1) SELECT COUNT(DISTINCT CUST_ID)  FROM CUSTOMERS;
+2) SELECT COUNT(CUST_ID)  FROM CUSTOMERS;
+3) SELECT COUNT(DISTINCT CUST_ID)  FROM CUSTOMERS GROUP BY C1;
+4) SELECT COUNT(CUST_ID)  FROM CUSTOMERS GROUP BY C1;
+
+
+28. 아래와 같은 테이블이 있을 때 'TRUE' 결과가 나오는 부분으로 올바른 것은? 
+     -> 1) 같은 CHAR 끼리 비교하는 구문
+
+[TABLE] 
+
+CREATE TABLE SQLD_31_28 
+(
+  C1 CHAR(3),
+  C2 CHAR(5),
+  V1 VARCHAR2(3),
+  V2 VARCHAR2(5)
+);
+
+[데이터]
+INSERT INTO SQLD_31_28 VALUES('AA','AA','AA','AA');
+
+[SQL]
+
+SELECT 
+        CASE WHEN C1 = C2 THEN 'TRUE' ELSE 'FALSE' END C1_C2,   -------- 1)
+        CASE WHEN C1 = V1 THEN 'TRUE' ELSE 'FALSE' END C1_V1,   -------- 2)
+        CASE WHEN C1 = V2 THEN 'TRUE' ELSE 'FALSE' END C1_V2,   -------- 3)
+        CASE WHEN V1 = V2 THEN 'TRUE' ELSE 'FALSE' END V1_V2    -------- 4)
+FROM SQLD_31_28;
+
+
+29. 아래의 데이터 결과가 나오게 하는 SQL 을 완성하기 위해 올바른것을 고르시오. 
+     (RANK, DENSE_RANK, ROW_NUMBER 차이 묻는 문제)
+     -> 2) DENSE_RANK (중복 등수 이후 연속된 등수가 나오기 때문)
+
+[결과]
+
+.... 순위 
+--------
+      1
+      2
+      2
+      3
+      4
+      5
+
+[SQL]
+
+SELECT .... ,  (      )   OVER (PARTITION BY C1 ORDER BY C2 ) AS 순위
+FROM ....
+
+1) RANK 
+2) DENSE_RANK
+3) ROW_NUMBER
+4) ?
+
+
+30. 아래의 SQL 의 결과로 올바른 것은?
+    ( NOT 에 대한 구문 이해) 
+     3) 4 
+     * NOT(COL1 = 'B' AND COL2 IS NULL) ---> COL1 <> 'B'  OR  COL2 IS NOT NULL 와 동일
+   
+[데이터]
+SQLD_31_30
+--------------
+COL1   COL2
+--------------
+A 
+A X
+B 
+B Y
+C Z
+
+[SQL]
+SELECT COUNT(*)
+FROM SQLD_31_30
+WHERE 1=1
+AND NOT(COL1 = 'B' AND COL2 IS NULL);
+
+1) 2
+2) 3
+3) 4
+4) 5
+
+
+31. 아래와 같은 데이터 있을 때 아래 SQL의 결과로 올바른 것은?
+     -> 2) 20 
+     * 데이터는 임의이며 보기순서는 아마도 맞을듯요. 10,20 인건 기억이 나네요.
+     * GROUP BY 가 없었던거 같은데...암튼 GROUP BY 가 없으면 전체, 있으면 그 기준으로 ORDER BY 하고 MAX(COL) 가져오는 형태임
+
+[데이터]
+EMP_ID   DEPT_ID 
+--------------------
+1           10
+1           20
+2           30
+3           30
+4           40
+5           50
+
+[SQL]
+SELECT MAX(DEPT_ID) KEEP(DENSE_RANK FIRST ORDER BY EMP_ID) AS MAX_DEPT_ID
+FROM SQLD_31_31 A
+
+1) 10
+2) 20
+3) 30
+4) 50
+
+* 참고 : MAX(column_name1) KEEP(DENSE_RANK FIRST[LAST] ORDER BY column_name2 )
+=> WINDOW 함수처럼 각 ROW 에 표시되는 형태가 아닌 집합함수입니다.즉, GROUP BY 표현식이 있어야 함 
+=> GROUP BY 에 표시된 GROUP 에서 우선적으로 column_name2 로 ORDER BY (ASC,DESC) 하여 DENSE_RANK 의 첫번째(FIRST), 마지막(LAST) 를 KEEP 합니다. (즉, 그룹된 기준에서 임의의 컬럼으로 순서를 정렬한 집합중 첫번째 또는 마지막 그룹을 저장해둔다는 의미겠네요.
+=> KEEP 된 상태의 그룹에서 DENSE_RANK 의 첫번째(마지막) 그룹중 임의의 컬럼 column_name1 의 max 를 가져옴
