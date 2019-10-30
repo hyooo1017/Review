@@ -7,6 +7,7 @@ from sklearn.datasets import make_circles
 from sklearn.datasets import load_iris
 from sklearn.datasets import fetch_lfw_people
 from sklearn.datasets import load_digits
+from sklearn.datasets import load_files
 
 # 모델 평가
 from sklearn.model_selection import train_test_split
@@ -20,6 +21,7 @@ from sklearn.model_selection import StratifiedKFold
 from sklearn.model_selection import RepeatedStratifiedKFold
 from sklearn.model_selection import GridSearchCV
 from sklearn.model_selection import ParameterGrid
+from sklearn.model_selection import StratifiedShuffleSplit
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import f1_score
@@ -62,6 +64,7 @@ from sklearn.preprocessing import PolynomialFeatures
 
 # 성분 분석
 from sklearn.decomposition import PCA
+from sklearn.decomposition import LatentDirichletAllocation
 from sklearn.decomposition import NMF
 from sklearn.compose import ColumnTransformer
 from sklearn.compose import make_column_transformer
@@ -86,3 +89,9 @@ from sklearn.feature_selection import f_regression
 # 파이프라인
 from sklearn.pipeline import Pipeline
 from sklearn.pipeline import make_pipeline
+
+# 텍스트 변환기
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.feature_extraction.text import ENGLISH_STOP_WORDS
+from sklearn.feature_extraction.text import TfidfVectorizer
+from konlpy.tag import Okt
